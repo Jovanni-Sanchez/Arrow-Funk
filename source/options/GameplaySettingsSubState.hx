@@ -46,31 +46,34 @@ class GameplaySettingsSubState extends BaseOptionsMenu {
 		option.maxValue = 30;
 		addOption(option);
 
-		var option:Option = new Option('Sick! Hit Window', 'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.', 'sickWindow', INT);
+		var option:Option = new Option('Sick! Hit Window', 'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.', 'sickWindow', FLOAT);
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 15;
-		option.minValue = 15;
-		option.maxValue = 45;
+		option.minValue = 15.0;
+		option.maxValue = 45.0;
+		option.changeValue = 0.1;
 		addOption(option);
 
-		var option:Option = new Option('Good Hit Window', 'Changes the amount of time you have\nfor hitting a "Good" in milliseconds.', 'goodWindow', INT);
+		var option:Option = new Option('Good Hit Window', 'Changes the amount of time you have\nfor hitting a "Good" in milliseconds.', 'goodWindow', FLOAT);
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 30;
-		option.minValue = 15;
-		option.maxValue = 90;
+		option.minValue = 15.0;
+		option.maxValue = 90.0;
+		option.changeValue = 0.1;
 		addOption(option);
 
-		var option:Option = new Option('Bad Hit Window', 'Changes the amount of time you have\nfor hitting a "Bad" in milliseconds.', 'badWindow', INT);
+		var option:Option = new Option('Bad Hit Window', 'Changes the amount of time you have\nfor hitting a "Bad" in milliseconds.', 'badWindow', FLOAT);
 		option.displayFormat = '%vms';
 		option.scrollSpeed = 60;
-		option.minValue = 15;
-		option.maxValue = 135;
+		option.minValue = 15.0;
+		option.maxValue = 135.0;
+		option.changeValue = 0.1;
 		addOption(option);
 
 		var option:Option = new Option('Safe Frames', 'Changes how many frames you have for\nhitting a note earlier or late.', 'safeFrames', FLOAT);
 		option.scrollSpeed = 5;
-		option.minValue = 2;
-		option.maxValue = 10;
+		option.minValue = 2.0;
+		option.maxValue = 10.0;
 		option.changeValue = 0.1;
 		addOption(option);
 
