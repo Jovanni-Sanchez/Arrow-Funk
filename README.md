@@ -8,7 +8,7 @@
 
 Must have Haxe 4.3.4 or greater.
 
-The setup files for Psych Engine's specific haxe libraries can be installed with the `install_haxelibs` files located in the `projFiles/setup` folder.
+The setup files for Psych Engine's specific haxe libraries can be installed with the `install_haxelibs` files located in the `projFiles/setup` folder. The files are named after your operating system.
 
 Refer to [Psych Engine's build instructions](https://github.com/ShadowMario/FNF-PsychEngine/blob/main/BUILDING.md).
 
