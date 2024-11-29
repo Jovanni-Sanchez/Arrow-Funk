@@ -118,7 +118,7 @@ class WeekEditorState extends MusicBeatState implements PsychUIEventHandler.Psyc
 		loadWeekButton.x -= 120;
 		add(loadWeekButton);
 
-		var freeplayButton:PsychUIButton = new PsychUIButton(0, 650, "Freeplay", function() MusicBeatState.switchState(new WeekEditorFreeplayState(weekFile)));
+		var freeplayButton:PsychUIButton = new PsychUIButton(0, 650, "Freeplay", function() FlxG.switchState(new WeekEditorFreeplayState(weekFile)));
 		freeplayButton.screenCenter(X);
 		add(freeplayButton);
 
@@ -392,7 +392,7 @@ class WeekEditorState extends MusicBeatState implements PsychUIEventHandler.Psyc
 			ClientPrefs.toggleVolumeKeys(true);
 			if (FlxG.keys.justPressed.ESCAPE) {
 				if (!unsavedProgress) {
-					MusicBeatState.switchState(new MasterEditorMenu());
+					FlxG.switchState(new MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				} else
 					openSubState(new ExitConfirmationPrompt(function() unsavedProgress = false));
@@ -599,7 +599,7 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 		add(loadWeekButton);
 
 		var storyModeButton:PsychUIButton = new PsychUIButton(0, 685, "Story Mode", function() {
-			MusicBeatState.switchState(new WeekEditorState(weekFile));
+			FlxG.switchState(new WeekEditorState(weekFile));
 		});
 		storyModeButton.screenCenter(X);
 		add(storyModeButton);
@@ -720,7 +720,7 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 			super.update(elapsed);
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new WeekEditorFreeplayState(WeekEditorState.loadedWeek));
+			FlxG.switchState(new WeekEditorFreeplayState(WeekEditorState.loadedWeek));
 			WeekEditorState.loadedWeek = null;
 			return;
 		}
@@ -731,7 +731,7 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 			ClientPrefs.toggleVolumeKeys(true);
 			if (FlxG.keys.justPressed.ESCAPE) {
 				if (!WeekEditorState.unsavedProgress) {
-					MusicBeatState.switchState(new MasterEditorMenu());
+					FlxG.switchState(new MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				} else
 					openSubState(new ExitConfirmationPrompt());

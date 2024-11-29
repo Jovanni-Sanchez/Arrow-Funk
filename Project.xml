@@ -104,7 +104,6 @@
 		<assets path='mods' embed='false' type='template' unless="mac"/>
 		<assets path='mods' embed='false' if="mac"/>
 	</section>
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 	<assets path='list.txt' rename='modsList.txt' />
 
 	<!-- OpenAL config -->

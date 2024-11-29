@@ -1,7 +1,12 @@
 package states.editors;
 
 import flixel.graphics.FlxGraphic;
+import flixel.animation.FlxAnimation;
+#if FLX_DEBUG
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+#else
+import openfl.display.BitmapData;
+#end
 import flixel.util.FlxDestroyUtil;
 import openfl.net.FileReference;
 import openfl.events.Event;
@@ -12,6 +17,11 @@ import objects.HealthIcon;
 import objects.Bar;
 import states.editors.content.Prompt;
 import states.editors.content.PsychJsonPrinter;
+
+#if !FLX_DEBUG
+@:bitmap("assets/images/debugger/cursorCross.png")
+private class GraphicCursorCross extends BitmapData {}
+#end
 
 class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler.PsychUIEvent {
 	var character:Character;
@@ -1002,13 +1012,13 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		} else if (FlxG.keys.justPressed.ESCAPE) {
 			if (!_goToPlayState) {
 				if (!unsavedProgress) {
-					MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+					FlxG.switchState(new states.editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				} else
 					openSubState(new ExitConfirmationPrompt());
 			} else {
 				FlxG.mouse.visible = false;
-				MusicBeatState.switchState(new PlayState());
+				FlxG.switchState(new PlayState());
 			}
 			return;
 		}

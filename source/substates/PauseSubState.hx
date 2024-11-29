@@ -167,7 +167,7 @@ class PauseSubState extends MusicBeatSubstate {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			PlayState.nextReloadAll = true;
-			MusicBeatState.resetState();
+			FlxG.resetState();
 		}
 
 		updateSkipTextStuff();
@@ -214,7 +214,7 @@ class PauseSubState extends MusicBeatSubstate {
 					if (menuItems.length - 1 != curSelected && difficultyChoices.contains(daSelected)) {
 						Song.loadFromJson(poop, songLowercase);
 						PlayState.storyDifficulty = curSelected;
-						MusicBeatState.resetState();
+						FlxG.resetState();
 						FlxG.sound.music.volume = 0;
 						PlayState.changedDifficulty = true;
 						PlayState.chartingMode = false;
@@ -285,7 +285,7 @@ class PauseSubState extends MusicBeatSubstate {
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
 					PlayState.instance.canResync = false;
-					MusicBeatState.switchState(new OptionsState());
+					FlxG.switchState(new OptionsState());
 					if (ClientPrefs.data.pauseMusic != 'None') {
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
@@ -300,9 +300,9 @@ class PauseSubState extends MusicBeatSubstate {
 					PlayState.instance.canResync = false;
 					Mods.loadTopMod();
 					if (PlayState.isStoryMode)
-						MusicBeatState.switchState(new StoryMenuState());
+						FlxG.switchState(new StoryMenuState());
 					else
-						MusicBeatState.switchState(new FreeplayState());
+						FlxG.switchState(new FreeplayState());
 
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
@@ -331,7 +331,7 @@ class PauseSubState extends MusicBeatSubstate {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.resetState();
+		FlxG.resetState();
 	}
 
 	override function destroy() {

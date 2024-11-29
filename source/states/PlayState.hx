@@ -1899,7 +1899,7 @@ class PlayState extends MusicBeatState {
 		DiscordClient.resetClientID();
 		#end
 
-		MusicBeatState.switchState(new ChartingState());
+		FlxG.switchState(new ChartingState());
 	}
 
 	function openCharacterEditor() {
@@ -1916,7 +1916,7 @@ class PlayState extends MusicBeatState {
 			opponentVocals.pause();
 
 		#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
-		MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
+		FlxG.switchState(new CharacterEditorState(SONG.player2));
 	}
 
 	public var isDead:Bool = false; // Don't mess with this on Lua!!!
@@ -2394,7 +2394,7 @@ class PlayState extends MusicBeatState {
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					canResync = false;
-					MusicBeatState.switchState(new StoryMenuState());
+					FlxG.switchState(new StoryMenuState());
 
 					// if ()
 					if (!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
@@ -2428,7 +2428,7 @@ class PlayState extends MusicBeatState {
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				canResync = false;
-				MusicBeatState.switchState(new FreeplayState());
+				FlxG.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}
