@@ -822,7 +822,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 					} else {
 						var speedMult:Float = (FlxG.keys.pressed.SHIFT ? 4 : 1) * (FlxG.mouse.wheel != 0 ? 4 : 1) / (holdingAlt ? 4 : 1);
 						if (FlxG.keys.pressed.W || FlxG.mouse.wheel > 0)
-							lxG.sound.music.time -= Conductor.crochet * speedMult * 1.5 * elapsed / curZoom;
+							FlxG.sound.music.time -= Conductor.crochet * speedMult * 1.5 * elapsed / curZoom;
 						else if (FlxG.keys.pressed.S || (FlxG.mouse.wheel < 0 && !FlxG.keys.pressed.CONTROL))
 							FlxG.sound.music.time += Conductor.crochet * speedMult * 1.5 * elapsed / curZoom;
 					}
@@ -3961,7 +3961,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 				alphaStepper.cameras = state.cameras;
 				state.add(alphaStepper);
 
-				var options:Array<WaveformTarget> = [INST, PLAYER, OPPONENT, EVERYTHING]
+				var options:Array<WaveformTarget> = [INST, PLAYER, OPPONENT, EVERYTHING];
 				var radioGrp:PsychUIRadioGroup = new PsychUIRadioGroup(check.x + 120, check.y,
 					['Instrumental', 'Main Vocals', 'Opponent Vocals', 'Every Track']);
 				radioGrp.cameras = state.cameras;
@@ -4811,6 +4811,19 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			default:
 				null;
 		}, width, height);
+
+		if (waveformTarget == EVERYTHING) {
+			drawOnWaveform(vocals, width, height, -.25, .75);
+			drawOnWaveform(opponentVocals, width, height, .25, .75);
+			drawOnWaveform(FlxG.sound.music, width, height, 0, .5);
+		}
+		#else
+		waveformSprite.visible = false;
+		#end
+	}
+
+	#if (lime_cffi && !macro)
+	function drawOnWaveform(sound:FlxSound, width:Int, height:Int, offset:Float = 0, amp:Float = 1) {
 		@:privateAccess
 		if (sound == null || sound._sound == null || sound._sound.__buffer == null)
 			return;
@@ -4847,8 +4860,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			var xx:Float = /*Math.max(0, Math.min(gSize - ww, */ hSize - ww * .5 + (gSize * offset); // ));
 			waveformSprite.pixels.fillRect(new Rectangle(xx, index * size, ww, size), FlxColor.WHITE);
 		}
-		#end
 	}
+	#end
 
 	function waveformData(buffer:AudioBuffer, bytes:Bytes, time:Float, endTime:Float, multiply:Float = 1, ?array:Array<Array<Array<Float>>>,
 			?steps:Float):Array<Array<Array<Float>>> {
