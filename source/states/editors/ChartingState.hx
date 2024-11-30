@@ -812,7 +812,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 					if (FlxG.sound.music.playing)
 						setSongPlaying(false);
 
-					if (mouseSnapCheckBox.checked && (FlxG.mouse.wheel != 0 && !FlxG.keys.pressed.CONTROL)) {
+					if (mouseSnapCheckBox.checked
+						&& (FlxG.mouse.wheel != 0 && #if !mac !FlxG.keys.pressed.CONTROL #else !FlxG.keys.pressed.WINDOWS #end)) {
 						var snap:Float = Conductor.stepCrochet / (curQuant / 16) / curZoom;
 						var timeAdd:Float = (FlxG.keys.pressed.SHIFT ? 4 : 1) / (holdingAlt ? 4 : 1) * -FlxG.mouse.wheel * snap;
 						var time:Float = Math.round((FlxG.sound.music.time + timeAdd) / snap) * snap;
@@ -823,7 +824,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 						var speedMult:Float = (FlxG.keys.pressed.SHIFT ? 4 : 1) * (FlxG.mouse.wheel != 0 ? 4 : 1) / (holdingAlt ? 4 : 1);
 						if (FlxG.keys.pressed.W || FlxG.mouse.wheel > 0)
 							FlxG.sound.music.time -= Conductor.crochet * speedMult * 1.5 * elapsed / curZoom;
-						else if (FlxG.keys.pressed.S || (FlxG.mouse.wheel < 0 && !FlxG.keys.pressed.CONTROL))
+						else if (FlxG.keys.pressed.S
+							|| (FlxG.mouse.wheel < 0 && #if !mac !FlxG.keys.pressed.CONTROL #else !FlxG.keys.pressed.WINDOWS #end))
 							FlxG.sound.music.time += Conductor.crochet * speedMult * 1.5 * elapsed / curZoom;
 					}
 
@@ -865,10 +867,9 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			if (FlxG.keys.justPressed.ENTER) {
 				goToPlayState();
 				return;
-			} else if (FlxG.keys.pressed.CONTROL
-				&& !isMovingNotes
-				&& (FlxG.keys.justPressed.Z || FlxG.keys.justPressed.Y || FlxG.keys.justPressed.X || FlxG.keys.justPressed.C || FlxG.keys.justPressed.V
-					|| FlxG.keys.justPressed.A || FlxG.keys.justPressed.S)) {
+			} else if (#if !mac FlxG.keys.pressed.CONTROL #else FlxG.keys.pressed.WINDOWS #end
+				&& !isMovingNotes && (FlxG.keys.justPressed.Z || FlxG.keys.justPressed.Y || FlxG.keys.justPressed.X || FlxG.keys.justPressed.C
+					|| FlxG.keys.justPressed.V || FlxG.keys.justPressed.A || FlxG.keys.justPressed.S)) {
 				canContinue = false;
 				if (FlxG.keys.justPressed.Z)
 					undo();
@@ -1180,7 +1181,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 					movingNotesLastY = dummyArrow.y;
 				}
 			} else if (FlxG.mouse.justPressed && !ignoreClickForThisFrame) {
-				if (FlxG.keys.pressed.CONTROL && FlxG.mouse.justPressed) {
+				if (#if !mac FlxG.keys.pressed.CONTROL #else FlxG.keys.pressed.WINDOWS #end && FlxG.mouse.justPressed) {
 					if (selectedNotes.length > 0)
 						moveSelectedNotes(noteData, dummyArrow.y);
 					else
@@ -1210,7 +1211,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 								addUndoAction(SELECT_NOTE, {old: sel, current: selectedNotes.copy()});
 							}
 							trace('Notes selected: ' + selectedNotes.length);
-						} else if (!FlxG.keys.pressed.CONTROL) // Remove Note/Event
+						} else if (#if !mac !FlxG.keys.pressed.CONTROL #else !FlxG.keys.pressed.WINDOWS #end) // Remove Note/Event
 						{
 							var kind:String = !closest.isEvent ? 'note' : 'event';
 							trace('Removed $kind at time: ${closest.strumTime}');
@@ -1335,8 +1336,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			var sineValue:Float = 0.75 + Math.cos(Math.PI * noteSelectionSine * (isMovingNotes ? 8 : 2)) / 4;
 			// trace(sineValue);
 
-			var qPress = FlxG.keys.justPressed.Q || ((FlxG.mouse.wheel == 1) && FlxG.keys.pressed.CONTROL);
-			var ePress = FlxG.keys.justPressed.E || ((FlxG.mouse.wheel == -1) && FlxG.keys.pressed.CONTROL);
+			var qPress = FlxG.keys.justPressed.Q
+				|| ((FlxG.mouse.wheel == 1) && #if !mac FlxG.keys.pressed.CONTROL #else FlxG.keys.pressed.WINDOWS #end);
+			var ePress = FlxG.keys.justPressed.E
+				|| ((FlxG.mouse.wheel == -1) && #if !mac FlxG.keys.pressed.CONTROL #else FlxG.keys.pressed.WINDOWS #end);
 			var addSus = (FlxG.keys.pressed.SHIFT ? 4 : 1) * (Conductor.stepCrochet / 2);
 			if (qPress)
 				addSus *= -1;

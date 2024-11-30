@@ -33,6 +33,8 @@
 	<define name="PSYCH_WATERMARKS"/>
 	<!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 
+	<define name="officialBuild"/>
+
 	<section if="officialBuild">
 		<define name="TITLE_SCREEN_EASTER_EGG"/>
 		<define name="BASE_GAME_FILES" />

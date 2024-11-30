@@ -111,6 +111,10 @@ class FunkinLua {
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
 
+		// Mac / Windows modifiers
+		set('primaryModifier', Main.modifier_keys[0]); // Control or Command
+		set('secondaryModifier', Main.modifier_keys[1]); // Alt or Option
+
 		// PlayState-only variables
 		if (game != null)
 			@:privateAccess
