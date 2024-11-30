@@ -71,21 +71,32 @@
 	<define name="CRASH_HANDLER" if="desktop release" />
 
 	<!-- Assets -->
-	<assets path="assets" exclude="exclude|secrets|*.ogg" if="web"/>
-	<assets path="assets" exclude="exclude|secrets|*.mp3" unless="web"/>
-
+	<assets path="assets/fonts" />
+	<assets path="assets/shared" exclude="*.ogg" if="web"/>
+	<assets path="assets/shared" exclude="*.mp3" unless="web"/>
+	<assets path="assets/embed" exclude="*.ogg" if="web" embed="true"/>
+	<assets path="assets/embed" exclude="*.mp3" unless="web" embed="true"/>
+	<assets path="assets/videos" if="VIDEOS_ALLOWED"/>
+	<assets path="assets/songs" exclude="*.ogg" if="web"/>
+	<assets path="assets/songs" exclude="*.mp3" unless="web"/>
+	<assets path="assets/week_assets" rename="assets" exclude="*.ogg" if="web"/>
+	<assets path="assets/week_assets" rename="assets" exclude="*.mp3" unless="web"/>
 	<section if="TITLE_SCREEN_EASTER_EGG">
-		<assets path="assets/secrets" rename="assets" exclude="*.ogg" if="web"/>
-		<assets path="assets/secrets" rename="assets" exclude="*.mp3" unless="web"/>
+		<assets path="assets/secrets" rename="assets/shared" exclude="*.ogg" if="web"/>
+		<assets path="assets/secrets" rename="assets/shared" exclude="*.mp3" unless="web"/>
 	</section>
 
 	<section if="TRANSLATIONS_ALLOWED">
-		<assets path="assets/data/translations" exclude="*.ogg" if="web"/>
-		<assets path="assets/data/translations" exclude="*.mp3" unless="web"/>
+		<assets path="assets/translations" rename="assets" exclude="*.ogg" if="web"/>
+		<assets path="assets/translations" rename="assets" exclude="*.mp3" unless="web"/>
 	</section>
 
-	<haxelib name="grig.audio"/>
-	<haxelib name="funkin.vis"/>
+	<section if="BASE_GAME_FILES">
+		<assets path="assets/base_game" rename="assets" exclude="*.ogg" if="web"/>
+		<assets path="assets/base_game" rename="assets" exclude="*.mp3" unless="web"/>
+		<haxelib name="grig.audio" if="BASE_GAME_FILES"/>
+		<haxelib name="funkin.vis" if="BASE_GAME_FILES"/>
+	</section>
 
 	<define name="CHECK_FOR_UPDATES" if="desktop officialBuild"/>
 
@@ -103,7 +114,7 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
-	<haxelib name="flixel" version="5.8.0"/>
+	<haxelib name="flixel" version="5.6.1"/>
 	<haxelib name="flixel-addons" version="3.2.2"/>
 	<haxelib name="tjson" version="1.4.0"/>
 

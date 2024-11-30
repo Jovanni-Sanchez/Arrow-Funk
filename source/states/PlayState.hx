@@ -1695,10 +1695,9 @@ class PlayState extends MusicBeatState {
 			var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
 			songPercent = (curTime / songLength);
 
-			var songCalc:Float = (songLength - curTime) / playbackRate; // time fix
-
+			var songCalc:Float = (songLength - curTime);
 			if (ClientPrefs.data.timeBarType == 'Time Elapsed')
-				songCalc = curTime; // amount of time passed is ok
+				songCalc = curTime;
 
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if (secondsTotal < 0)
@@ -1706,12 +1705,6 @@ class PlayState extends MusicBeatState {
 
 			if (ClientPrefs.data.timeBarType != 'Song Name')
 				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
-			else { // this is what was fucked up, hopefully this fixes it.
-				var secondsTotal:Int = Math.floor(songCalc / 1000);
-				if (secondsTotal < 0)
-					secondsTotal = 0;
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
-			}
 		}
 
 		if (camZooming) {
@@ -1778,8 +1771,7 @@ class PlayState extends MusicBeatState {
 								if (cpuControlled
 									&& !daNote.blockHit
 									&& daNote.canBeHit
-									&& ((daNote.isSustainNote && daNote.prevNote.wasGoodHit)
-										|| daNote.strumTime <= Conductor.songPosition))
+									&& (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
 									goodNoteHit(daNote);
 							} else if (daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote)
 								opponentNoteHit(daNote);
@@ -2502,15 +2494,7 @@ class PlayState extends MusicBeatState {
 		// tryna do MS based judgment due to popular demand
 		var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
 
-		switch (ClientPrefs.data.accuracyType) {
-			case 'Note':
-				totalNotesHit += 1;
-			case 'Millisecond': // Much like Kade's "Complex" but less broken
-				totalNotesHit += (daRating.name == 'sick' ? 1 : ratingsData[0].hitWindow / (noteDiff / playbackRate));
-			default:
-				totalNotesHit += daRating.ratingMod;
-		}
-
+		totalNotesHit += daRating.ratingMod;
 		note.ratingMod = daRating.ratingMod;
 		if (!note.ratingDisabled)
 			daRating.hits++;

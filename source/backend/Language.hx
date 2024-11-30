@@ -9,7 +9,7 @@ class Language {
 	public static function reloadPhrases() {
 		#if TRANSLATIONS_ALLOWED
 		var langFile:String = ClientPrefs.data.language;
-		var loadedText:Array<String> = Mods.mergeAllTextsNamed('data/translations/$langFile.lang');
+		var loadedText:Array<String> = Mods.mergeAllTextsNamed('data/$langFile.lang');
 		// trace(loadedText);
 
 		phrases.clear();
