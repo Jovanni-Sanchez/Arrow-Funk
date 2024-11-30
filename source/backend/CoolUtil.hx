@@ -4,6 +4,20 @@ import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
 
 class CoolUtil {
+	/**
+	 * Plays a sound safely by checking if it exists or not.
+	 *
+	 * made to play some sounds in-game with no concerns as to whether it will crash or not.
+	 *
+	 * this is safer than calling Paths.sound due to an extra check
+	 * @param sound					The sound stream (i.e: String, openfl.media.Sound, etc)
+	 * @param volume				Sound's volume
+	**/
+	public static function playSoundSafe(sound:flixel.system.FlxAssets.FlxSoundAsset, ?beepOnError:Bool = true, volume:Float = 1.0) {
+		if (sound != null)
+			FlxG.sound.play(sound, volume);
+	}
+
 	inline public static function quantize(f:Float, snap:Float) {
 		// changed so this actually works lol
 		var m:Float = Math.fround(f * snap);
