@@ -28,7 +28,7 @@ class Paths {
 			dumpExclusions.push(key);
 	}
 
-	public static var dumpExclusions:Array<String> = ['assets/shared/music/freakyMenu.$SOUND_EXT'];
+	public static var dumpExclusions:Array<String> = ['assets/music/freakyMenu.$SOUND_EXT'];
 
 	// haya I love you for the base cache dump I took to the max
 	public static function clearUnusedMemory() {
@@ -65,7 +65,7 @@ class Paths {
 		}
 		// flags everything to be cleared out next unused memory clear
 		localTrackedAssets = [];
-		#if !html5 openfl.Assets.cache.clear("songs"); #end
+		#if !html5 openfl.Assets.cache.clear("assets/songs"); #end
 	}
 
 	inline static function destroyGraphic(graphic:FlxGraphic) {
@@ -93,22 +93,14 @@ class Paths {
 		}
 		#end
 
-		if (parentfolder != null)
-			return getFolderPath(file, parentfolder);
-
-		if (currentLevel != null && currentLevel != 'shared') {
-			var levelPath = getFolderPath(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
-		}
 		return getSharedPath(file);
 	}
 
-	inline static public function getFolderPath(file:String, folder = "shared")
+	inline static public function getFolderPath(file:String, ?folder:String)
 		return 'assets/$folder/$file';
 
 	inline public static function getSharedPath(file:String = '')
-		return 'assets/shared/$file';
+		return 'assets/$file';
 
 	inline static public function txt(key:String, ?folder:String)
 		return getPath('data/$key.txt', TEXT, folder, true);
