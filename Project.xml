@@ -73,8 +73,7 @@
 	<!-- Assets -->
 	<assets path="assets" exclude="exclude|secrets|*.ogg" if="web"/>
 	<assets path="assets" exclude="exclude|secrets|*.mp3" unless="web"/>
-	<assets path="assets/embed" exclude="*.ogg" if="web" embed="true"/>
-	<assets path="assets/embed" exclude="*.mp3" unless="web" embed="true"/>
+
 	<section if="TITLE_SCREEN_EASTER_EGG">
 		<assets path="assets/secrets" rename="assets" exclude="*.ogg" if="web"/>
 		<assets path="assets/secrets" rename="assets" exclude="*.mp3" unless="web"/>
@@ -104,7 +103,7 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
-	<haxelib name="flixel" version="5.6.1"/>
+	<haxelib name="flixel" version="5.8.0"/>
 	<haxelib name="flixel-addons" version="3.2.2"/>
 	<haxelib name="tjson" version="1.4.0"/>
 
