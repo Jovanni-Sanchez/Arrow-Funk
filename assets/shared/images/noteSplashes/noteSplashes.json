@@ -7,8 +7,8 @@
 				26
 			],
 			"offsets": [
-				70,
-				76
+				105,
+				100
 			],
 			"indices": [],
 			"name": "blue2",
@@ -21,8 +21,8 @@
 				26
 			],
 			"offsets": [
-				60,
-				60
+				91,
+				115
 			],
 			"indices": [],
 			"name": "purple",
@@ -35,8 +35,8 @@
 				26
 			],
 			"offsets": [
-				57,
-				58
+				80,
+				112
 			],
 			"indices": [],
 			"name": "red",
@@ -49,8 +49,8 @@
 				26
 			],
 			"offsets": [
-				66,
-				80
+				102,
+				102
 			],
 			"indices": [],
 			"name": "red2",
@@ -63,8 +63,8 @@
 				26
 			],
 			"offsets": [
-				55,
-				60
+				84,
+				112
 			],
 			"indices": [],
 			"name": "blue",
@@ -77,8 +77,8 @@
 				26
 			],
 			"offsets": [
-				76,
-				80
+				111,
+				106
 			],
 			"indices": [],
 			"name": "purple2",
@@ -91,8 +91,8 @@
 				26
 			],
 			"offsets": [
-				57,
-				61
+				84,
+				114
 			],
 			"indices": [],
 			"name": "green",
@@ -105,8 +105,8 @@
 				26
 			],
 			"offsets": [
-				70,
-				80
+				106,
+				110
 			],
 			"indices": [],
 			"name": "green2",
