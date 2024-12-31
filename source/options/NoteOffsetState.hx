@@ -377,7 +377,7 @@ class NoteOffsetState extends MusicBeatState {
 				beatTween.cancel();
 
 			persistentUpdate = false;
-			MusicBeatState.switchState(new options.OptionsState());
+			FlxG.switchState(() -> new options.OptionsState());
 			if (OptionsState.onPlayState) {
 				if (ClientPrefs.data.pauseMusic != 'None')
 					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));

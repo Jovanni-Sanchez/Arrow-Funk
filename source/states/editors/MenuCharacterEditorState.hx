@@ -208,7 +208,7 @@ class MenuCharacterEditorState extends MusicBeatState implements PsychUIEventHan
 			ClientPrefs.toggleVolumeKeys(true);
 			if (FlxG.keys.justPressed.ESCAPE) {
 				if (!unsavedProgress) {
-					MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+					FlxG.switchState(() -> new states.editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				} else
 					openSubState(new ExitConfirmationPrompt());

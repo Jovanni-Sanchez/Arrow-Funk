@@ -224,7 +224,7 @@ class MainMenuState extends MusicBeatState {
 				selectedSomethin = true;
 				FlxG.mouse.visible = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new TitleState());
+				FlxG.switchState(() -> new TitleState());
 			}
 
 			if (controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse)) {
@@ -255,24 +255,21 @@ class MainMenuState extends MusicBeatState {
 					FlxFlicker.flicker(item, 1, 0.06, false, false, function(flick:FlxFlicker) {
 						switch (option) {
 							case 'story_mode':
-								MusicBeatState.switchState(new StoryMenuState());
+								FlxG.switchState(() -> new StoryMenuState());
 							case 'freeplay':
-								MusicBeatState.switchState(new FreeplayState());
-
+								FlxG.switchState(() -> new FreeplayState());
 							#if MODS_ALLOWED
 							case 'mods':
-								MusicBeatState.switchState(new ModsMenuState());
+								FlxG.switchState(() -> new ModsMenuState());
 							#end
-
 							#if ACHIEVEMENTS_ALLOWED
 							case 'achievements':
-								MusicBeatState.switchState(new AchievementsMenuState());
+								FlxG.switchState(() -> new AchievementsMenuState());
 							#end
-
 							case 'credits':
-								MusicBeatState.switchState(new CreditsState());
+								FlxG.switchState(() -> new CreditsState());
 							case 'options':
-								MusicBeatState.switchState(new OptionsState());
+								FlxG.switchState(() -> new OptionsState());
 								OptionsState.onPlayState = false;
 								if (PlayState.SONG != null) {
 									PlayState.SONG.arrowSkin = null;
@@ -295,7 +292,7 @@ class MainMenuState extends MusicBeatState {
 			if (controls.justPressed('debug_1')) {
 				selectedSomethin = true;
 				FlxG.mouse.visible = false;
-				MusicBeatState.switchState(new MasterEditorMenu());
+				FlxG.switchState(() -> new MasterEditorMenu());
 			}
 			#end
 		}
