@@ -11,7 +11,7 @@ import haxe.io.Path;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
-import opsenfl.events.Event;
+import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
 import states.TitleState;

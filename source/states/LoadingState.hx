@@ -33,27 +33,23 @@ class LoadingState extends MusicBeatState {
 	}
 
 	inline static public function loadAndSwitchState(target:NextState, stopMusic = false, intrusive:Bool = true)
-		MusicBeatState.switchState(getNextState(target, stopMusic, intrusive));
+		FlxG.switchState(getNextState(target, stopMusic, intrusive));
 
 	var target:NextState = null;
 	var stopMusic:Bool = false;
 	var dontUpdate:Bool = false;
-
 	var bar:FlxSprite;
 	var barWidth:Int = 0;
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
 	var canChangeState:Bool = true;
-
 	#if PSYCH_WATERMARKS
 	var logo:FlxSprite;
 	var pessy:FlxSprite;
 	var loadingText:FlxText;
-
 	var timePassed:Float;
 	var shakeFl:Float;
 	var shakeMult:Float = 0;
-
 	var isSpinning:Bool = false;
 	var spawnedPessy:Bool = false;
 	var pressedTimes:Int = 0;
@@ -225,7 +221,7 @@ class LoadingState extends MusicBeatState {
 
 		FlxG.camera.visible = false;
 		FlxTransitionableState.skipNextTransIn = true;
-		MusicBeatState.switchState(target);
+		FlxG.switchState(target);
 		transitioning = true;
 		finishedLoading = true;
 		mutex = null;
