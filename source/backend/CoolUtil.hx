@@ -124,6 +124,20 @@ class CoolUtil {
 	}
 
 	/**
+	 * Plays a sound safely by checking if it exists or not.
+	 *
+	 * made to play some sounds in-game with no concerns as to whether it will crash or not.
+	 *
+	 * this is safer than calling Paths.sound due to an extra check
+	 * @param sound					The sound stream (i.e: String, openfl.media.Sound, etc)
+	 * @param volume				Sound's volume
+	**/
+	public static function playSoundSafe(sound:flixel.system.FlxAssets.FlxSoundAsset, ?beepOnError:Bool = true, volume:Float = 1.0) {
+		if (sound != null)
+			FlxG.sound.play(sound, volume);
+	}
+
+	/**
 		Helper Function to Fix Save Files for Flixel 5
 
 		-- EDIT: [November 29, 2023] --
