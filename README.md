@@ -39,6 +39,7 @@ Refer to [Psych Engine's build instructions](https://github.com/ShadowMario/FNF-
 - [MaliciousBunny](https://x.com/BunnyMalicious) - Video for the Final Update.
 - [DetectiveBaldi](https://github.com/DetectiveBaldi) - Compatibility for Flixel 5.8.0.
 - [LarryFrost](https://github.com/LarryFrosty) - Lua Cleanup PR.
+- [MoonlightCatalyst](https://github.com/MoonlightCatalyst) - V-Slice Hold Covers and Note Desaturation.
 - [ADA-Funni](https://github.com/ADA-Funni) - Mouse wheel shortcut for sustains within the Chart Editor.
 - [inky03](https://github.com/inky03) - Vortex Editor Functionality, a Everything Waveform view, Editor sustains, and scripting touch-ups.
 

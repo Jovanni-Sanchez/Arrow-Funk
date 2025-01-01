@@ -70,6 +70,7 @@ class Note extends FlxSprite {
 
 	public var blockHit:Bool = false; // only works for player
 
+	public var cover:HoldCover = null;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var noteType(default, set):String = null;
