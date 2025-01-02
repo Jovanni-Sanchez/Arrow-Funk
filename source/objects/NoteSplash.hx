@@ -62,14 +62,15 @@ class NoteSplash extends FlxSprite {
 		maxAnims = 0;
 
 		texture = splash;
+		if (texture == null || texture.length < 1)
+			texture = defaultNoteSplash;
+		if (texture == defaultNoteSplash)
+			texture += getSplashSkinPostfix();
+
 		frames = Paths.getSparrowAtlas(texture);
 		if (frames == null) {
-			texture = defaultNoteSplash + getSplashSkinPostfix();
+			texture = defaultNoteSplash;
 			frames = Paths.getSparrowAtlas(texture);
-			if (frames == null) {
-				texture = defaultNoteSplash;
-				frames = Paths.getSparrowAtlas(texture);
-			}
 		}
 
 		var path:String = 'images/$texture';

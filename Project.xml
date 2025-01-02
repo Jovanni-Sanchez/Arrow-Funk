@@ -96,7 +96,7 @@
 		<assets path='mods' embed='false' if="mac"/>
 	</section>
 
-	<assets path='projFiles/system/modsList.txt' />
+	<assets path='projFiles/system/modsList.txt' rename="modsList.txt" />
 
 	<!-- OpenAL config -->
 	<section if="desktop">

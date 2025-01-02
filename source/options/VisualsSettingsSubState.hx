@@ -32,6 +32,9 @@ class VisualsSettingsSubState extends BaseOptionsMenu {
 		}
 
 		// options
+		var option:Option = new Option('Note Quantization', "Changes how notes get their colours. Quants bases it on beat.", 'noteQuantization', BOOL);
+		addOption(option);
+
 		var noteSkins:Array<String> = Mods.mergeAllTextsNamed('images/noteSkins/list.txt');
 		if (noteSkins.length > 0) {
 			if (!noteSkins.contains(ClientPrefs.data.noteSkin))

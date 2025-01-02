@@ -643,6 +643,9 @@ class PlayState extends MusicBeatState {
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 		callOnScripts('onCreatePost');
 
+		if (ClientPrefs.data.noteQuantization && !PlayState.SONG.disableNoteRGB)
+			noteQuantization();
+
 		var splash:NoteSplash = new NoteSplash();
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; // cant make it invisible or it won't allow precaching
@@ -1284,6 +1287,27 @@ class PlayState extends MusicBeatState {
 	private var eventsPushed:Array<String> = [];
 	private var totalColumns:Int = 4;
 
+	public dynamic function noteQuantization() {
+		for (note in unspawnNotes) {
+			var idx = note.quants.indexOf(note.quant);
+			if (note.rgbShader.enabled) {
+				if (note.isSustainNote) {
+					note.rgbShader.r = note.prevNote.rgbShader.r;
+					note.rgbShader.g = note.prevNote.rgbShader.g;
+					note.rgbShader.b = note.prevNote.rgbShader.b;
+				} else {
+					note.rgbShader.r = ClientPrefs.data.arrowRGBQuant[idx][0];
+					note.rgbShader.g = ClientPrefs.data.arrowRGBQuant[idx][1];
+					note.rgbShader.b = ClientPrefs.data.arrowRGBQuant[idx][2];
+
+					note.noteSplashData.r = ClientPrefs.data.arrowRGBQuant[idx][0];
+					note.noteSplashData.g = ClientPrefs.data.arrowRGBQuant[idx][1];
+					note.noteSplashData.b = ClientPrefs.data.arrowRGBQuant[idx][2];
+				}
+			}
+		}
+	}
+
 	private function generateSong():Void {
 		// FlxG.log.add(ChartParser.parse());
 		songSpeed = PlayState.SONG.speed;
@@ -1362,7 +1386,12 @@ class PlayState extends MusicBeatState {
 					// CLEAR ANY POSSIBLE GHOST NOTES
 					for (evilNote in unspawnNotes) {
 						var matches:Bool = (noteColumn == evilNote.noteData && gottaHitNote == evilNote.mustPress && evilNote.noteType == noteType);
-						if (matches && Math.abs(spawnTime - evilNote.strumTime) == 0.0) {
+						if (matches && Math.abs(spawnTime - evilNote.strumTime) < flixel.math.FlxMath.EPSILON) {
+							if (evilNote.tail.length > 0)
+								for (tail in evilNote.tail) {
+									tail.destroy();
+									unspawnNotes.remove(tail);
+								}
 							evilNote.destroy();
 							unspawnNotes.remove(evilNote);
 							ghostNotesCaught++;
@@ -1727,9 +1756,10 @@ class PlayState extends MusicBeatState {
 			var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
 			songPercent = (curTime / songLength);
 
-			var songCalc:Float = (songLength - curTime);
+			var songCalc:Float = (songLength - curTime) / playbackRate; // time fix
+
 			if (ClientPrefs.data.timeBarType == 'Time Elapsed')
-				songCalc = curTime;
+				songCalc = curTime; // amount of time passed is ok
 
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if (secondsTotal < 0)
@@ -1737,6 +1767,12 @@ class PlayState extends MusicBeatState {
 
 			if (ClientPrefs.data.timeBarType != 'Song Name')
 				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			else { // this is what was fucked up, hopefully this fixes it.
+				var secondsTotal:Int = Math.floor(songCalc / 1000);
+				if (secondsTotal < 0)
+					secondsTotal = 0;
+				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			}
 		}
 
 		if (camZooming) {
@@ -2992,6 +3028,12 @@ class PlayState extends MusicBeatState {
 			note.isSustainNote
 		]);
 
+		if (ClientPrefs.data.noteQuantization && !SONG.disableNoteRGB) {
+			opponentStrums.members[note.noteData].rgbShader.r = note.rgbShader.r;
+			opponentStrums.members[note.noteData].rgbShader.g = note.rgbShader.g;
+			opponentStrums.members[note.noteData].rgbShader.b = note.rgbShader.b;
+		}
+
 		if (!isPixelStage)
 			spawnHoldCoverOnNote(note);
 
@@ -3058,6 +3100,12 @@ class PlayState extends MusicBeatState {
 						}
 					}
 				}
+			}
+
+			if (ClientPrefs.data.noteQuantization && !SONG.disableNoteRGB) {
+				playerStrums.members[note.noteData].rgbShader.r = note.rgbShader.r;
+				playerStrums.members[note.noteData].rgbShader.g = note.rgbShader.g;
+				playerStrums.members[note.noteData].rgbShader.b = note.rgbShader.b;
 			}
 
 			if (!cpuControlled) {

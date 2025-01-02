@@ -22,6 +22,33 @@ class Conductor {
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
+	public static var ROWS_PER_BEAT = 48; // from Stepmania
+	public static var BEATS_PER_MEASURE = 4; // TODO: time sigs
+	public static var ROWS_PER_MEASURE = ROWS_PER_BEAT * BEATS_PER_MEASURE; // from Stepmania
+	public static var MAX_NOTE_ROW = 1 << 30; // from Stepmania
+
+	public inline static function beatToRow(beat:Float):Int
+		return Math.round(beat * ROWS_PER_BEAT);
+
+	public inline static function rowToBeat(row:Int):Float
+		return row / ROWS_PER_BEAT;
+
+	public inline static function secsToRow(sex:Float):Int
+		return Math.round(getBeat(sex) * ROWS_PER_BEAT);
+
+	inline public static function beatToNoteRow(beat:Float):Int {
+		return Math.round(beat * Conductor.ROWS_PER_BEAT);
+	}
+
+	inline public static function noteRowToBeat(row:Float):Float {
+		return row / Conductor.ROWS_PER_BEAT;
+	}
+
+	public static function getBeatInMeasure(time:Float):Float {
+		var lastBPMChange = getBPMFromSeconds(time);
+		return (time - lastBPMChange.songTime) / (lastBPMChange.stepCrochet * 4);
+	}
+
 	public static function judgeNote(arr:Array<Rating>, diff:Float = 0):Rating // die
 	{
 		var data:Array<Rating> = arr;

@@ -24,6 +24,8 @@ import states.TitleState;
 	public var camZooms:Bool = true;
 	public var hideHud:Bool = false;
 	public var noteOffset:Int = 0;
+
+	public var noteQuantization:Bool = false;
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
@@ -36,6 +38,19 @@ import states.TitleState;
 		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]
 	];
+	public var arrowRGBQuant:Array<Array<FlxColor>> = [
+		[0xFFE51919, 0xFFFFFFFF, 0xFF5B0A2C], // 4th step
+		[0xFF193BE5, 0xFFFFFFFF, 0xFF0A3A5B], // 8th step
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF1E0A5B], // 12th step
+		[0xFF26D93E, 0xFFFFFFFF, 0xFF24560F], // 16th step
+		[0xFF3A3A6C, 0xFFA6A6A6, 0xFF171F2B], // 20th step
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF1E0A5B], // 24th step
+		[0xFFE5C319, 0xFFFFFFFF, 0xFF5B2B0A], // 32nd step
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF1E0A5B], // 48th step
+		[0xFF13ECA4, 0xFFFFFFFF, 0xFF085D1C], // 64th step
+		[0xFF3A3A6C, 0xFFA6A6A6, 0xFF171F2B], // 96th step`
+		[0xFF3A3A6C, 0xFFA6A6A6, 0xFF171F2B], // 192th step
+	];
 
 	public var ghostTapping:Bool = true;
 	public var timeBarType:String = 'Time Left';
@@ -46,6 +61,7 @@ import states.TitleState;
 	public var pauseMusic:String = 'Tea Time';
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
+
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative',
@@ -180,7 +196,7 @@ class ClientPrefs {
 
 		if (FlxG.save.data.framerate == null) {
 			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
-			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
+			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 360));
 		}
 		#end
 

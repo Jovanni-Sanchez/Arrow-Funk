@@ -83,6 +83,21 @@ class Note extends FlxSprite {
 	public var rgbShader:RGBShaderReference;
 
 	public static var globalRgbShaders:Array<RGBPalette> = [];
+	public static var globalQuantRgbShaders:Array<RGBPalette> = [];
+
+	public var quants:Array<Int> = [4, 8, 12, 16, 20, 24, 32, 48, 64, 96, 192];
+
+	public function getQuant(beat:Float) {
+		var row = Conductor.beatToNoteRow(beat);
+		for (data in quants) {
+			if (row % (Conductor.ROWS_PER_MEASURE / data) == 0) {
+				return data;
+			}
+		}
+		return quants[quants.length - 1]; // invalid
+	}
+
+	public var quant:Int = 4;
 
 	public var inEditor:Bool = false;
 
@@ -190,6 +205,22 @@ class Note extends FlxSprite {
 		}
 	}
 
+	public dynamic function defaultQuantRGB() {
+		var noteData:Int = noteData;
+
+		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGBQuant[noteData];
+
+		if (arr != null && noteData > -1 && noteData <= arr.length) {
+			rgbShader.r = arr[0];
+			rgbShader.g = arr[1];
+			rgbShader.b = arr[2];
+		} else {
+			rgbShader.r = 0xFFFF0000;
+			rgbShader.g = 0xFF00FF00;
+			rgbShader.b = 0xFF0000FF;
+		}
+	}
+
 	private function set_noteType(value:String):String {
 		noteSplashData.texture = PlayState.SONG != null ? PlayState.SONG.splashSkin : 'noteSplashes/noteSplashes';
 		defaultRGB();
@@ -252,6 +283,14 @@ class Note extends FlxSprite {
 		this.inEditor = inEditor;
 		this.moves = false;
 
+		if (ClientPrefs.data.noteQuantization) {
+			var beat = Conductor.getBeatInMeasure(strumTime);
+			if (prevNote != null && isSustainNote)
+				quant = prevNote.quant;
+			else
+				quant = getQuant(beat);
+		}
+
 		x += (ClientPrefs.data.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
@@ -262,7 +301,8 @@ class Note extends FlxSprite {
 		this.noteData = noteData;
 
 		if (noteData > -1) {
-			rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData));
+			rgbShader = new RGBShaderReference(this,
+				ClientPrefs.data.noteQuantization ? initializeGlobalQuantRGBShader(noteData) : initializeGlobalRGBShader(noteData));
 			if (PlayState.SONG != null && PlayState.SONG.disableNoteRGB)
 				rgbShader.enabled = false;
 			texture = '';
@@ -344,6 +384,25 @@ class Note extends FlxSprite {
 			globalRgbShaders[noteData] = newRGB;
 		}
 		return globalRgbShaders[noteData];
+	}
+
+	public static function initializeGlobalQuantRGBShader(noteData:Int) {
+		if (globalQuantRgbShaders[noteData] == null) {
+			var newRGB:RGBPalette = new RGBPalette();
+			var arr:Array<FlxColor> = ClientPrefs.data.arrowRGBQuant[noteData];
+
+			if (arr != null && noteData > -1 && noteData <= arr.length) {
+				newRGB.r = arr[0];
+				newRGB.g = arr[1];
+				newRGB.b = arr[2];
+			} else {
+				newRGB.r = 0xFFFF0000;
+				newRGB.g = 0xFF00FF00;
+				newRGB.b = 0xFF0000FF;
+			}
+			globalQuantRgbShaders[noteData] = newRGB;
+		}
+		return globalQuantRgbShaders[noteData];
 	}
 
 	var _lastNoteOffX:Float = 0;
